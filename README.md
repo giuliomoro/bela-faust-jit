@@ -5,7 +5,7 @@ Prerequisites:
 * `libssl-dev`
 * LLVM libraries compiled with `-DLLVM_ENABLE_RTTI=ON` (i.e.: get them with `apt-get` or compile
 them yourself: the binaries you would download from the LLVM website would not be suitable).
-* compile and install the `faust2` branch of https://github.com/grame-cncm/faust
+* compile and install the `master` branch of https://github.com/grame-cncm/faust
 
 Usage:
 * at build time pass the following flags to `make`: 
