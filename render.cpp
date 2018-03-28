@@ -237,8 +237,8 @@ class BelaUI : public UI
   void skip() {
     fBelaPin = kNoPin;
   }
-
- public:
+ void addSoundfile(const char* label, const char* filename, Soundfile** sf_zone) {};
+public:
 
   BelaUI()
   : fIndex(0)
@@ -326,17 +326,13 @@ bool setup(BelaContext *context, void *userData)
     
   std::string error_msg;
   std::string faustFilename((char*)userData);
-  std::cout << "That is: " << faustFilename << std::endl;
   int ret = access(faustFilename.c_str(), F_OK);
-  printf("Access returned %d, %s\n", ret, ret ? strerror(errno) : "");
   fFactory = createDSPFactoryFromFile(faustFilename,
   //fFactory = createDSPFactoryFromString("fausttest", "random = +(12345)~*(1103515245); noise = random/2147483647.0; \nprocess = noise * vslider(\"Volume[style:knob][BELA:kANALOG_6]\", 0.5, 0, 1, 0.1);\n",
   0, 0, "", error_msg);
   std::cout << error_msg;
-  printf("Created factory indeed: %p\n", fFactory);
   fDSP = fFactory->createDSPInstance();
-  printf("Created DSP indeed: %p\n", fDSP);
- 
+  
   fDSP->init(context->audioSampleRate);
   fDSP->buildUserInterface(&fUI); // Maps Bela Analog/Digital IO and faust widgets
 
@@ -365,7 +361,7 @@ bool setup(BelaContext *context, void *userData)
   fMidiUI = new MidiUI(&fMIDI);
   fDSP->buildUserInterface(fMidiUI);
   fMidiUI->run();
-
+  std::cout << "Running..." << std::endl;
   return true;
 }
 

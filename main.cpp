@@ -29,7 +29,7 @@ void usage(const char * processName)
 
 	cerr << "   --help [-h]:                        Print this menu\n";
 }
-#define FAUST_FILENAME '\199'
+#define FAUST_FILENAME 140
 int main(int argc, char *argv[])
 {
 	BelaInitSettings settings;	// Standard audio settings
@@ -43,7 +43,9 @@ int main(int argc, char *argv[])
 
 	// Set default settings
 	Bela_defaultSettings(&settings);
-
+	settings.setup = setup;
+	settings.render = render;
+	settings.cleanup = cleanup;
 	char const* faustFilename = NULL;
 	// Parse command-line arguments
 	while (1) {
