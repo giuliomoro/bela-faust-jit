@@ -327,6 +327,11 @@ bool setup(BelaContext *context, void *userData)
   std::string error_msg;
   std::string faustFilename((char*)userData);
   int ret = access(faustFilename.c_str(), F_OK);
+  if(ret)
+  {
+    std::cerr << "Unable to load the dsp file " << faustFilename << "\n";
+    return false;
+  }
   fFactory = createDSPFactoryFromFile(faustFilename,
   //fFactory = createDSPFactoryFromString("fausttest", "random = +(12345)~*(1103515245); noise = random/2147483647.0; \nprocess = noise * vslider(\"Volume[style:knob][BELA:kANALOG_6]\", 0.5, 0, 1, 0.1);\n",
   0, 0, "", error_msg);
@@ -341,13 +346,13 @@ bool setup(BelaContext *context, void *userData)
 
   if(gInputBuffers == NULL || gOutputBuffers == NULL)
   {
-    rt_printf("setup() failed: couldn't allocated buffers");
+    std::cerr << "setup() failed: couldn't allocate buffers\n";
     return false;
   }
 
   if(fDSP->getNumInputs() > 10 || fDSP->getNumOutputs() > 10)
   {
-    rt_printf("setup() failed: FAUST DSP has too many i/o");
+    std::cerr << "setup() failed: FAUST DSP has too many i/o\n";
     return false;
   }
   // create the table of input channels
